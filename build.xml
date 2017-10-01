@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" default="build-run" basedir=".">
+
+	<property name="src" value="src"/>
+	<property name="lib" value="build/lib"/>
+	<property name="dest" value="build/classes"/>
+	<property name="np_jar" value="build/lib/test.jar"/>
+
+	<target name="show-jdk">
+		<echo message="jdk version: ${ant.java.version}" />
+	</target>
+	
+	<target name="create-path">
+		<mkdir dir="${dest}"/>
+		<mkdir dir="${lib}"/>
+	</target>
+
+	<target name="create-class">
+		<javac srcdir="${src}" destdir="${dest}"/>
+	</target>
+
+	<target name="create-jar">
+		<jar destfile="${np_jar}" basedir="${dest}">
+		   <manifest>
+			  <attribute name="Main-Class" value="Test"/>
+		   </manifest>
+		</jar>
+	</target>
+
+	<target name="run-Test">
+		<java classname="Test" classpath="${np_jar}"/>
+	</target>
+
+	<target name="clean">
+		<delete file="${np_jar}"/>
+		<delete dir="${dest}"/>
+		<delete dir="${lib}"/>
+	</target>
+	
+	<target name="build-run" depends="clean,create-path,create-class,create-jar">
+		<java classname="Test" classpath="${np_jar}"/>
+	</target>
+	
+</project>
